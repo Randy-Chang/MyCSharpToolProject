@@ -5,7 +5,7 @@
 ## 📌 功能特色
 - **狀態模式 (State Pattern)**：清晰管理紅綠燈的變化邏輯  
 - **介面驅動設計 (Interface-Based Design)**：提供 `ITrafficLight`、`ITrafficLightUIPack` 等模組化設計  
-- **可擴展架構**：可支援行人號誌、智能交通系統等應用  
+- **未來可擴展架構**：可支援行人號誌、智能交通系統等應用  
 - **Windows Forms / WPF 支援**：可搭配 UI 進行可視化測試  
 
 ---
