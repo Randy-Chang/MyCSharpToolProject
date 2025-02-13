@@ -1,19 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TrafficLight_FSM.StatePattern
+﻿namespace TrafficLight_FSM.StatePattern
 {
-    public enum ES1 { Idle, Pause, Active, Exit }
+    public enum ES1
+    {
+        Idle,
+        Pause,
+        Active,
+        Exit
+    }
 
-    public enum ETrafficLightState { Red, Green, Yellow }
+    public enum ETrafficLightState
+    {
+        Red,
+        Green,
+        Yellow
+    }
 
     public interface ITrafficLightState
     {
-        void EnterState(TrafficLight2 context);
-        void UpdateState(TrafficLight2 context);
+        void EnterState(TrafficLight_StatePattern context);
+        void UpdateState(TrafficLight_StatePattern context);
     }
 
     public interface ITrafficLight

@@ -14,7 +14,7 @@ namespace TrafficLight_FSM_Project.Scopes
 
         public static void InitTrafficLight()
         {
-            trafficLight = new TrafficLight2(mainForm);
+            trafficLight = new TrafficLight_StatePattern(mainForm);
         }
 
     }

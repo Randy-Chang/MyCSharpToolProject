@@ -1,72 +1,68 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using TrafficLight_FSM.StatePattern;
 
-namespace TrafficLight_FSM
+namespace TrafficLight_FSM.StatePattern
 {
     #region 紅燈狀態機
+
     public class RedState : ITrafficLightState
     {
-        public void EnterState(TrafficLight2 trafficLight)
+        public void EnterState(TrafficLight_StatePattern trafficLight)
         {
             trafficLight.stopwatch.Restart();
             trafficLight.uIController.ShowRedLight();
         }
 
-        public void UpdateState(TrafficLight2 trafficLight)
+        public void UpdateState(TrafficLight_StatePattern trafficLight)
         {
             if (trafficLight.stopwatch.Elapsed.TotalSeconds >= trafficLight.redDuration)
-            {
                 trafficLight.SetState(ES1.Active, new GreenState());
-            }
         }
     }
+
     #endregion
 
     #region 綠燈狀態機
+
     public class GreenState : ITrafficLightState
     {
-        public void EnterState(TrafficLight2 trafficLight)
+        public void EnterState(TrafficLight_StatePattern trafficLight)
         {
             trafficLight.stopwatch.Restart();
             trafficLight.uIController.ShowGreenLight();
         }
 
-        public void UpdateState(TrafficLight2 trafficLight)
+        public void UpdateState(TrafficLight_StatePattern trafficLight)
         {
             if (trafficLight.stopwatch.Elapsed.TotalSeconds >= trafficLight.greenDuration)
-            {
                 trafficLight.SetState(ES1.Active, new YellowState());
-            }
         }
     }
+
     #endregion
 
     #region 黃燈狀態機
+
     public class YellowState : ITrafficLightState
     {
-        public void EnterState(TrafficLight2 trafficLight)
+        public void EnterState(TrafficLight_StatePattern trafficLight)
         {
             trafficLight.stopwatch.Restart();
             trafficLight.uIController.ShowYellowLight();
         }
 
-        public void UpdateState(TrafficLight2 trafficLight)
+        public void UpdateState(TrafficLight_StatePattern trafficLight)
         {
             if (trafficLight.stopwatch.Elapsed.TotalSeconds >= trafficLight.yellowDuration)
-            {
                 trafficLight.SetState(ES1.Active, new RedState());
-            }
         }
     }
+
     #endregion
 
     #region 暫停狀態
+
     public class PauseState : ITrafficLightState
     {
         private ITrafficLightState previousState;
@@ -76,13 +72,13 @@ namespace TrafficLight_FSM
             this.previousState = previousState;
         }
 
-        public void EnterState(TrafficLight2 trafficLight)
+        public void EnterState(TrafficLight_StatePattern trafficLight)
         {
             trafficLight.stopwatch.Stop();
             trafficLight.uIController.ShowTimerState("⏸ 暫停中");
         }
 
-        public void UpdateState(TrafficLight2 trafficLight)
+        public void UpdateState(TrafficLight_StatePattern trafficLight)
         {
             // 暫停狀態不做任何動作，等候 Resume
         }
@@ -91,57 +87,60 @@ namespace TrafficLight_FSM
     #endregion
 
     #region 待機狀態
+
     public class IdleState : ITrafficLightState
     {
-        public void EnterState(TrafficLight2 trafficLight)
+        public void EnterState(TrafficLight_StatePattern trafficLight)
         {
             trafficLight.uIController.ShowTimerState("Idle");
         }
 
-        public void UpdateState(TrafficLight2 trafficLight)
+        public void UpdateState(TrafficLight_StatePattern trafficLight)
         {
             // Idle 不做任何事
         }
     }
+
     #endregion
 
     #region 離開狀態
+
     public class ExitState : ITrafficLightState
     {
-        public void EnterState(TrafficLight2 trafficLight)
+        public void EnterState(TrafficLight_StatePattern trafficLight)
         {
             trafficLight.uIController.ShowTimerState("Exit");
         }
 
-        public void UpdateState(TrafficLight2 trafficLight)
+        public void UpdateState(TrafficLight_StatePattern trafficLight)
         {
             // Idle 不做任何事
         }
     }
+
     #endregion
 
-    public class TrafficLight2 : ITrafficLight
+    public class TrafficLight_StatePattern : ITrafficLight
     {
-        internal ITrafficLightUIController uIController;
-        ES1 S1 { get; set; }  // 維持系統模式
+        internal int greenDuration = 5;
 
-        ITrafficLightState stateNow;
+        private bool IsFirst = true;
+        private readonly bool IsRunning = true;
+        internal int redDuration = 5;
+
+        private ITrafficLightState stateNow;
         internal ITrafficLightState stateSave = new IdleState();
         internal Stopwatch stopwatch;
-        Thread thread;
-        bool IsRunning = true;
-
-        bool IsFirst = true;
-        internal int redDuration = 5;
-        internal int greenDuration = 5;
+        private readonly Thread thread;
+        internal ITrafficLightUIController uIController;
         internal int yellowDuration = 5;
 
-        public TrafficLight2(ITrafficLightUIController uIController)
+        public TrafficLight_StatePattern(ITrafficLightUIController uIController)
         {
             this.uIController = uIController;
 
-            S1 = ES1.Idle;   // 初始狀態為 Idle
-            stateNow = new IdleState();  // 初始燈號狀態
+            S1 = ES1.Idle; // 初始狀態為 Idle
+            stateNow = new IdleState(); // 初始燈號狀態
 
             stopwatch = new Stopwatch();
 
@@ -149,6 +148,8 @@ namespace TrafficLight_FSM
             thread.IsBackground = true;
             thread.Start();
         }
+
+        private ES1 S1 { get; set; } // 維持系統模式
 
         public void SetDurations(int red, int green, int yellow)
         {
@@ -160,13 +161,9 @@ namespace TrafficLight_FSM
         public void Start()
         {
             if (IsFirst)
-            {
                 SetState(ES1.Active, new RedState());
-            }
             else
-            {
                 SetState(ES1.Active, stateSave);
-            }
             stopwatch.Start();
         }
 
@@ -214,7 +211,7 @@ namespace TrafficLight_FSM
                         break;
 
                     case ES1.Active:
-                        int timeNow = Convert.ToInt32(stopwatch.Elapsed.TotalSeconds);
+                        var timeNow = Convert.ToInt32(stopwatch.Elapsed.TotalSeconds);
                         uIController.ShowTimerState($"Timer: {timeNow}");
                         stateNow.UpdateState(this);
                         break;
@@ -222,5 +219,4 @@ namespace TrafficLight_FSM
             }
         }
     }
-
 }
