@@ -5,6 +5,12 @@ VisualStudioVersion = 17.12.35527.113 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCSharpToolProject", "MyCSharpToolProject\MyCSharpToolProject.csproj", "{B379C8A5-3757-448F-A09C-C561671AC2DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficLight_FSM", "TrafficLight_FSM\TrafficLight_FSM.csproj", "{EA6ACC91-80B6-412B-89CB-262BD9493B0E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProject", "TestProject", "{724099BD-C501-479A-ABC3-0AE2F4562463}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficLight_FSM_Project", "TrafficLight_FSM_Project\TrafficLight_FSM_Project.csproj", "{804B5000-6938-489C-A665-814AFEF4AA19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +21,19 @@ Global
 		{B379C8A5-3757-448F-A09C-C561671AC2DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B379C8A5-3757-448F-A09C-C561671AC2DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B379C8A5-3757-448F-A09C-C561671AC2DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA6ACC91-80B6-412B-89CB-262BD9493B0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA6ACC91-80B6-412B-89CB-262BD9493B0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA6ACC91-80B6-412B-89CB-262BD9493B0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA6ACC91-80B6-412B-89CB-262BD9493B0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{804B5000-6938-489C-A665-814AFEF4AA19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{804B5000-6938-489C-A665-814AFEF4AA19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{804B5000-6938-489C-A665-814AFEF4AA19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{804B5000-6938-489C-A665-814AFEF4AA19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{804B5000-6938-489C-A665-814AFEF4AA19} = {724099BD-C501-479A-ABC3-0AE2F4562463}
 	EndGlobalSection
 EndGlobal

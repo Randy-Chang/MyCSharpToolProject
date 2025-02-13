@@ -39,10 +39,12 @@ namespace MyCSharpToolProject
             {
                 for (int col = 0; col < columns; col++)
                 {
+                    // ... other code ...
+
                     Panel childPanel = new Panel
                     {
-                        Size = new Size(panelWidth, panelHeight),
-                        Location = new Point(
+                        Size = new System.Drawing.Size(panelWidth, panelHeight), // Use System.Drawing.Size
+                        Location = new System.Drawing.Point(
                             col * (panelWidth + spacing) + spacing, // 考慮左側間距
                             row * (panelHeight + spacing) + spacing // 考慮上方間距
                         ),
