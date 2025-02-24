@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileAndFolderFunction.cs" />
+    <Compile Include="GaussianFittingAlgorithm.cs" />
     <Compile Include="NumericalProcessing.cs" />
     <Compile Include="PlotZedGraph.cs" />
     <Compile Include="SelectFolderFunction.cs" />
