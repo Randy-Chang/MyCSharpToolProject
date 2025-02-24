@@ -44,7 +44,6 @@
     <Compile Include="ITrafficLightUIController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatePattern\ES1.cs" />
-    <Compile Include="StatePattern\ETrafficLightState.cs" />
     <Compile Include="StatePattern\States\ExitState.cs" />
     <Compile Include="StatePattern\States\GreenState.cs" />
     <Compile Include="StatePattern\States\IdleState.cs" />
