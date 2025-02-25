@@ -16,6 +16,12 @@ namespace MyCSharpToolProject
 
     public static class GaussianFittingFactory
     {
+        /// <summary>
+        /// 根據指定的方法獲取對應的高斯擬合算法實現。
+        /// </summary>
+        /// <param name="method">高斯擬合方法的枚舉類型</param>
+        /// <returns>對應的高斯擬合算法實例</returns>
+        /// <exception cref="ArgumentException">當提供未知的方法時拋出異常</exception>
         public static IGaussianFitting GetFittingAlgorithm(EMethod method)
         {
             switch (method)
@@ -30,6 +36,53 @@ namespace MyCSharpToolProject
                     throw new ArgumentException("未知的高斯擬合方法");
             }
         }
+
+        /// <summary>
+        /// 產生帶有雜訊的高斯波形數據。
+        /// </summary>
+        /// <param name="xData">輸出的 X 軸數據</param>
+        /// <param name="yData">輸出的 Y 軸數據</param>
+        /// <param name="numPoints">資料點數，預設 1000</param>
+        /// <param name="amplitude">高斯波振幅，預設 1.0</param>
+        /// <param name="mean">高斯波均值，預設 0.0</param>
+        /// <param name="stdDev">高斯波標準差，預設 1.0</param>
+        /// <param name="noiseLevel">雜訊強度，預設 0.1</param>
+        public static void GenerateNoisyGaussian(out List<double> xData, out List<double> yData,
+                                                    int numPoints = 1000,
+                                                    double amplitude = 1.0, double mean = 0.0,
+                                                    double stdDev = 1.0, double noiseLevel = 0.1)
+        {
+            Random rand = new Random();
+            xData = new List<double>(numPoints);
+            yData = new List<double>(numPoints);
+
+            for (int i = 0; i < numPoints; i++)
+            {
+                double x = (i - numPoints / 2.0) / (numPoints / 10.0); // x 軸範圍調整
+                double gaussian = amplitude * Math.Exp(-Math.Pow(x - mean, 2) / (2 * Math.Pow(stdDev, 2)));
+                double noise = noiseLevel * (rand.NextDouble() * 2 - 1); // 產生範圍為 [-noiseLevel, noiseLevel] 的雜訊
+                xData.Add(x);
+                yData.Add(gaussian + noise);
+            }
+        }
+
+        /// <summary>
+        /// 依據給定的 X 軸數據與高斯參數產生高斯波形數據（無雜訊）。
+        /// </summary>
+        /// <param name="xData">輸入的 X 軸數據</param>
+        /// <param name="parameters">高斯曲線參數 (振幅、均值、標準差)</param>
+        /// <param name="yData">輸出的 Y 軸數據</param>
+        public static void GenerateGaussianCurve(List<double> xData, GaussianParameter parameters, out List<double> yData)
+        {
+            yData = new List<double>(xData.Count);
+
+            foreach (var x in xData)
+            {
+                double gaussian = parameters.amp * Math.Exp(-Math.Pow(x - parameters.mu, 2) / (2 * Math.Pow(parameters.sigma, 2)));
+                yData.Add(gaussian);
+            }
+        }
+
     }
 
     #region Gaussian Fitting Algorithm
@@ -180,31 +233,31 @@ namespace MyCSharpToolProject
 
             for (int i = 0; i < count; i++)
             {
-                term11 += Math.Pow(yData[i], 2);
-                term12 += xData[i] * Math.Pow(yData[i], 2);
-                term13 += Math.Pow(xData[i], 2) * Math.Pow(yData[i], 2);
-                term21 += xData[i] * Math.Pow(yData[i], 2);
-                term22 += Math.Pow(xData[i], 2) * Math.Pow(yData[i], 2);
-                term23 += Math.Pow(xData[i], 3) * Math.Pow(yData[i], 2);
-                term31 += Math.Pow(xData[i], 2) * Math.Pow(yData[i], 2);
-                term32 += Math.Pow(xData[i], 3) * Math.Pow(yData[i], 2);
-                term33 += Math.Pow(xData[i], 4) * Math.Pow(yData[i], 2);
-                termY1 += Math.Log(Math.Abs(yData[i])) * Math.Pow(yData[i], 2);
-                termY2 += Math.Log(Math.Abs(yData[i])) * xData[i] * Math.Pow(yData[i], 2);
-                termY3 += Math.Log(Math.Abs(yData[i])) * xData[i] * xData[i] * Math.Pow(yData[i], 2);
+                term11 = count;
+                term12 += xData[i];
+                term13 += Math.Pow(xData[i], 2);
+                term21 += xData[i];
+                term22 += Math.Pow(xData[i], 2);
+                term23 += Math.Pow(xData[i], 3);
+                term31 += Math.Pow(xData[i], 2);
+                term32 += Math.Pow(xData[i], 3);
+                term33 += Math.Pow(xData[i], 4);
+                termY1 += Math.Log(Math.Abs(yData[i]));
+                termY2 += Math.Log(Math.Abs(yData[i])) * xData[i];
+                termY3 += Math.Log(Math.Abs(yData[i])) * xData[i] * xData[i];
             }
 
             double delta = term11 * term22 * term33 + term21 * term32 * term13 + term12 * term23 * term31
-                            - term13 * term22 * term31 - term12 * term21 * term33 - term11 * term23 * term32;
+                           - term13 * term22 * term31 - term12 * term21 * term33 - term11 * term23 * term32;
 
             double delta_x1 = termY1 * term22 * term33 + termY2 * term32 * term13 + term12 * term23 * termY3
-                            - term13 * term22 * termY3 - term12 * termY2 * term33 - termY1 * term23 * term32;
+                              - term13 * term22 * termY3 - term12 * termY2 * term33 - termY1 * term23 * term32;
 
             double delta_x2 = term11 * termY2 * term33 + term21 * termY3 * term13 + termY1 * term23 * term31
-                            - term13 * termY2 * term31 - termY1 * term21 * term33 - term11 * term23 * termY3;
+                              - term13 * termY2 * term31 - termY1 * term21 * term33 - term11 * term23 * termY3;
 
             double delta_x3 = term11 * term22 * termY3 + term21 * term32 * termY1 + term12 * termY2 * term31
-                            - termY1 * term22 * term31 - term12 * term21 * termY3 - term11 * termY2 * term32;
+                              - termY1 * term22 * term31 - term12 * term21 * termY3 - term11 * termY2 * term32;
 
             double a = delta_x1 / delta;
             double b = delta_x2 / delta;
