@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,12 @@ namespace MyCSharpToolProject
         public delegate void SetTextCallback(Control cntr, string text);
         public delegate void SetValueCallback(ProgressBar pgb, int value);
 
+        /// <summary>
+        /// Asynchronously sets the Enabled property of a control.
+        /// 異步設置控件的Enabled屬性。
+        /// </summary>
+        /// <param name="cntr">The control to set the Enabled property on. 要設置Enabled屬性的控件。</param>
+        /// <param name="b">The value to set the Enabled property to. 要設置的Enabled屬性值。</param>
         public static void AsyncSetEnabled(Control cntr, bool b)
         {
             try
@@ -31,6 +38,12 @@ namespace MyCSharpToolProject
             }
         }
 
+        /// <summary>
+        /// Asynchronously sets the Text property of a control.
+        /// 異步設置控件的Text屬性。
+        /// </summary>
+        /// <param name="cntr">The control to set the Text property on. 要設置Text屬性的控件。</param>
+        /// <param name="text">The value to set the Text property to. 要設置的Text屬性值。</param>
         public static void AsyncSetText(Control cntr, string text)
         {
             try
@@ -50,6 +63,12 @@ namespace MyCSharpToolProject
             }
         }
 
+        /// <summary>
+        /// Asynchronously sets the Value property of a ProgressBar.
+        /// 異步設置ProgressBar的Value屬性。
+        /// </summary>
+        /// <param name="pgb">The ProgressBar to set the Value property on. 要設置Value屬性的ProgressBar。</param>
+        /// <param name="value">The value to set the Value property to. 要設置的Value屬性值。</param>
         public static void AsyncProgressBarSetValue(ProgressBar pgb, int value)
         {
             try
@@ -69,6 +88,12 @@ namespace MyCSharpToolProject
             }
         }
 
+        /// <summary>
+        /// Asynchronously sets the Maximum property of a ProgressBar.
+        /// 異步設置ProgressBar的Maximum屬性。
+        /// </summary>
+        /// <param name="pgb">The ProgressBar to set the Maximum property on. 要設置Maximum屬性的ProgressBar。</param>
+        /// <param name="value">The value to set the Maximum property to. 要設置的Maximum屬性值。</param>
         public static void AsyncProgressBarSetMaximum(ProgressBar pgb, int value)
         {
             try
@@ -85,6 +110,33 @@ namespace MyCSharpToolProject
             catch (Exception e)
             {
                 //WriteLog(DateTime.Now.ToLongTimeString() + " : " + cntr.Name + " , AsyncSetColor " + e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Asynchronously sets the Text and ForeColor properties of a control.
+        /// 異步設置控件的Text與ForeColor屬性。
+        /// </summary>
+        /// <param name="cntr">The control to set the properties on. 要設置屬性的控件。</param>
+        /// <param name="text">The value to set the Text property to. 要設置的Text屬性值。</param>
+        /// <param name="color">The value to set the ForeColor property to. 要設置的ForeColor屬性值。</param>
+        public static void AsyncSetTextAndForeColor(Control cntr, string text, Color color)
+        {
+            try
+            {
+                if (cntr.InvokeRequired)
+                {
+                    cntr.BeginInvoke(new Action(() => AsyncSetTextAndForeColor(cntr, text, color)));
+                }
+                else
+                {
+                    cntr.Text = text;
+                    cntr.ForeColor = color;
+                }
+            }
+            catch (Exception e)
+            {
+                //WriteLog(DateTime.Now.ToLongTimeString() + " : " + cntr.Name + " , AsyncSetTextAndForeColor " + e.Message);
             }
         }
     }

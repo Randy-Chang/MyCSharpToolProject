@@ -62,6 +62,25 @@ namespace MyCSharpToolProject
             return childPanels;
         }
 
+        /// <summary>
+        /// 將 Enum 的值填入 ComboBox 中。
+        /// </summary>
+        /// <typeparam name="TEnum">Enum 類型。</typeparam>
+        /// <param name="comboBox">要填入的 ComboBox。</param>
+        public static void FillComboBoxWithEnum<TEnum>(ComboBox comboBox) where TEnum : Enum
+        {
+            if (comboBox == null) throw new ArgumentNullException(nameof(comboBox));
+
+            comboBox.Items.Clear();
+
+            foreach (var value in Enum.GetValues(typeof(TEnum)))
+            {
+                comboBox.Items.Add(value);
+            }
+
+            comboBox.SelectedIndex = 0;
+            comboBox.MaxDropDownItems = comboBox.Items.Count;
+        }
 
     }
 }

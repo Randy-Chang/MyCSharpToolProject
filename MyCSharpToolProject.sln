@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrafficLight_FSM_Project", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GaussianFitting_TestProject", "GaussianFitting_TestProject\GaussianFitting_TestProject.csproj", "{49241C17-F4D8-4196-831A-3E668EC5E90A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeMachineProject", "CoffeeMachineProject\CoffeeMachineProject.csproj", "{774D22FD-CCF1-48F5-B2DC-20D25318A4A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{49241C17-F4D8-4196-831A-3E668EC5E90A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49241C17-F4D8-4196-831A-3E668EC5E90A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49241C17-F4D8-4196-831A-3E668EC5E90A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{774D22FD-CCF1-48F5-B2DC-20D25318A4A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{774D22FD-CCF1-48F5-B2DC-20D25318A4A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{774D22FD-CCF1-48F5-B2DC-20D25318A4A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{774D22FD-CCF1-48F5-B2DC-20D25318A4A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,5 +48,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{804B5000-6938-489C-A665-814AFEF4AA19} = {724099BD-C501-479A-ABC3-0AE2F4562463}
 		{49241C17-F4D8-4196-831A-3E668EC5E90A} = {724099BD-C501-479A-ABC3-0AE2F4562463}
+		{774D22FD-CCF1-48F5-B2DC-20D25318A4A5} = {724099BD-C501-479A-ABC3-0AE2F4562463}
 	EndGlobalSection
 EndGlobal
