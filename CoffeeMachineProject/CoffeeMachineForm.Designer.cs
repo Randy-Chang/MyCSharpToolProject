@@ -84,7 +84,7 @@
             // 
             this.lbCoffeeMachinState.AutoSize = true;
             this.lbCoffeeMachinState.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
-            this.lbCoffeeMachinState.Location = new System.Drawing.Point(342, 322);
+            this.lbCoffeeMachinState.Location = new System.Drawing.Point(12, 320);
             this.lbCoffeeMachinState.Name = "lbCoffeeMachinState";
             this.lbCoffeeMachinState.Size = new System.Drawing.Size(170, 24);
             this.lbCoffeeMachinState.TabIndex = 5;

@@ -139,5 +139,31 @@ namespace MyCSharpToolProject
                 //WriteLog(DateTime.Now.ToLongTimeString() + " : " + cntr.Name + " , AsyncSetTextAndForeColor " + e.Message);
             }
         }
+
+        /// <summary>
+        /// Asynchronously sets the Location property of a control.
+        /// 異步設置控件的Location屬性。
+        /// </summary>
+        /// <param name="cntr">The control to set the Location property on. 要設置Location屬性的控件。</param>
+        /// <param name="location">The value to set the Location property to. 要設置的Location屬性值。</param>
+        public static void AsyncSetLocation(Control cntr, Point location)
+        {
+            try
+            {
+                if (cntr.InvokeRequired)
+                {
+                    cntr.BeginInvoke(new Action(() => AsyncSetLocation(cntr, location)));
+                }
+                else
+                {
+                    cntr.Location = location;
+                }
+            }
+            catch (Exception e)
+            {
+                //WriteLog(DateTime.Now.ToLongTimeString() + " : " + cntr.Name + " , AsyncSetLocation " + e.Message);
+            }
+        }
+
     }
 }
