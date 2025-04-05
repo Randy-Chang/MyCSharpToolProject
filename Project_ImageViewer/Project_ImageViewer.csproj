@@ -82,9 +82,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ImageViewer\ImageViewer.csproj">
+    <ProjectReference Include="..\ImageViewerApp\ImageViewerApp.csproj">
       <Project>{81143E56-030B-45F3-8D40-3581BC983D18}</Project>
-      <Name>ImageViewer</Name>
+      <Name>ImageViewerApp</Name>
     </ProjectReference>
     <ProjectReference Include="..\MyCSharpToolProject\MyCSharpToolProject.csproj">
       <Project>{B379C8A5-3757-448F-A09C-C561671AC2DC}</Project>

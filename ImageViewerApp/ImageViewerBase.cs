@@ -45,7 +45,7 @@ namespace ImageViewerApp
             }
         }
 
-        private void UpdateZoomToFit()
+        protected void UpdateZoomToFit()
         {
             if (_image == null || Width == 0 || Height == 0) return;
 
@@ -65,16 +65,9 @@ namespace ImageViewerApp
             _positionForFit = _position;
         }
 
+        
 
         // 滑鼠滾輪控制縮放
-        //protected override void OnMouseWheel(MouseEventArgs e)
-        //{
-        //    if (e.Delta > 0) _zoomLevel *= 1.1f; // 滾輪向上放大
-        //    else _zoomLevel /= 1.1f; // 滾輪向下縮小
-        //    Invalidate();
-        //    base.OnMouseWheel(e);
-        //}
-
         protected override void OnMouseWheel(MouseEventArgs e)
         {
             float oldZoom = _zoomLevel;
@@ -101,7 +94,7 @@ namespace ImageViewerApp
             base.OnMouseWheel(e);
         }
 
-        public bool EnableDragging { get; set; } = true;
+        public bool EnableDragging { get; set; } = false;
 
         protected override void OnMouseDown(MouseEventArgs e)
         {

@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace ImageViewerApp
 {
-    public class ImageViewer : ImageViewerBase
+    public partial class ImageViewer : ImageViewerBase
     {
-        private List<IOverlayPlugin> _plugins = new List<IOverlayPlugin>();
+
         private List<Button> _buttons = new List<Button>();
 
         public ImageViewer(int controlWidth = 0, int controlHeight = 0) : base(controlWidth, controlHeight)
@@ -24,6 +25,7 @@ namespace ImageViewerApp
         private void InitializeButtons()
         {
             // 假設在這裡添加按鍵到控制項
+            #region 建立按鍵
             Button fitButton = new Button
             {
                 Text = "Fit",
@@ -39,7 +41,7 @@ namespace ImageViewerApp
             { 
                 Text = "+",
                 Size = new Size(30, 30),
-                Location = new Point(10,45),
+                Location = new Point(10,10),
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Color.Transparent,
                 ForeColor = Color.White,
@@ -50,12 +52,27 @@ namespace ImageViewerApp
             {
                 Text = "-",
                 Size = new Size(30, 30),
-                Location = new Point(10, 80),
+                Location = new Point(10, 10),
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Color.Transparent,
                 ForeColor = Color.White,
                 Font = new Font("Arial", 10, FontStyle.Bold)
             };
+
+            Button draggingButton = new Button
+            {
+                Text = "",
+                Size = new Size(30, 30),
+                Location = new Point(10, 10),
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.Transparent,
+                ForeColor = Color.White,
+                Font = new Font("Arial", 10, FontStyle.Bold),
+                Image = new Bitmap(Properties.Resources.drag_1, new Size(25,25)),  // 縮放圖片到按鈕大小
+                ImageAlign = ContentAlignment.MiddleCenter  // 讓圖片居中顯示
+
+            };
+            #endregion
 
             fitButton.Click += (s, e) => 
             { 
@@ -65,10 +82,26 @@ namespace ImageViewerApp
             };
             zoomInButton.Click += (s, e) => { _zoomLevel *= 1.1f; Invalidate(); };
             zoomOutButton.Click += (s, e) => { _zoomLevel /= 1.1f; Invalidate(); };
+            draggingButton.Click += (s, e) => { EnableDragging = !EnableDragging; };
 
             _buttons.Add(fitButton);
+            _buttons.Add(draggingButton);
             _buttons.Add(zoomInButton);
             _buttons.Add(zoomOutButton);
+            
+
+            int yIntervel = 5;
+            int yStartPos = 5; 
+            int cnt = 0;
+
+            foreach (Button button in _buttons)
+            {
+                int ySize = button.Size.Height;
+                int yPos = yStartPos + (yIntervel + ySize) * cnt;
+                
+                button.Location = new Point(5, yPos);
+                cnt++;
+            }
 
             // 將按鍵加入到控制項中
             foreach (var button in _buttons)
@@ -76,6 +109,29 @@ namespace ImageViewerApp
                 Controls.Add(button);
             }
         }
+
+        // 覆寫 OnResize 來通知 ImageViewerBase 調整大小
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+
+            // 呼叫 ImageViewerBase 來調整圖片顯示區域大小
+            this.UpdateImageSize();
+        }
+
+        // 在這裡可以新增一個方法來更新圖片大小
+        private void UpdateImageSize()
+        {
+            // 在這裡加入調整圖片大小的邏輯
+            // 例如，將 ImageViewerBase 顯示的圖片尺寸設為目前 ImageViewer 的大小
+            this.UpdateZoomToFit();
+        }
+    }
+
+    // 插件擴充相關
+    public partial class ImageViewer
+    {
+        private List<IOverlayPlugin> _plugins = new List<IOverlayPlugin>();
 
         // 公開插件控制方法
         public void TogglePlugin(string pluginName)
