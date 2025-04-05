@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GaussianFitting_TestProject
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeMachineProject", "CoffeeMachineProject\CoffeeMachineProject.csproj", "{774D22FD-CCF1-48F5-B2DC-20D25318A4A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project_ImageViewer", "Project_ImageViewer\Project_ImageViewer.csproj", "{87E1AEDF-F269-4B56-BC92-414937697F18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageViewer", "ImageViewer\ImageViewer.csproj", "{81143E56-030B-45F3-8D40-3581BC983D18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +45,14 @@ Global
 		{774D22FD-CCF1-48F5-B2DC-20D25318A4A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{774D22FD-CCF1-48F5-B2DC-20D25318A4A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{774D22FD-CCF1-48F5-B2DC-20D25318A4A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87E1AEDF-F269-4B56-BC92-414937697F18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87E1AEDF-F269-4B56-BC92-414937697F18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87E1AEDF-F269-4B56-BC92-414937697F18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87E1AEDF-F269-4B56-BC92-414937697F18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81143E56-030B-45F3-8D40-3581BC983D18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81143E56-030B-45F3-8D40-3581BC983D18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81143E56-030B-45F3-8D40-3581BC983D18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81143E56-030B-45F3-8D40-3581BC983D18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,5 +61,6 @@ Global
 		{804B5000-6938-489C-A665-814AFEF4AA19} = {724099BD-C501-479A-ABC3-0AE2F4562463}
 		{49241C17-F4D8-4196-831A-3E668EC5E90A} = {724099BD-C501-479A-ABC3-0AE2F4562463}
 		{774D22FD-CCF1-48F5-B2DC-20D25318A4A5} = {724099BD-C501-479A-ABC3-0AE2F4562463}
+		{87E1AEDF-F269-4B56-BC92-414937697F18} = {724099BD-C501-479A-ABC3-0AE2F4562463}
 	EndGlobalSection
 EndGlobal

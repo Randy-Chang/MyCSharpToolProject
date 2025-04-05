@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EA6ACC91-80B6-412B-89CB-262BD9493B0E}</ProjectGuid>
+    <ProjectGuid>{81143E56-030B-45F3-8D40-3581BC983D18}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TrafficLight_FSM</RootNamespace>
-    <AssemblyName>TrafficLight_FSM</AssemblyName>
+    <RootNamespace>ImageViewer</RootNamespace>
+    <AssemblyName>ImageViewer</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,19 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ITrafficLightUIController.cs" />
+    <Compile Include="ImageViewer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageViewerBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="OverlayPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StatePattern\ES1.cs" />
-    <Compile Include="StatePattern\States\ExitState.cs" />
-    <Compile Include="StatePattern\States\GreenState.cs" />
-    <Compile Include="StatePattern\States\IdleState.cs" />
-    <Compile Include="StatePattern\ITrafficLight.cs" />
-    <Compile Include="StatePattern\ITrafficLightState.cs" />
-    <Compile Include="StatePattern\States\PauseState.cs" />
-    <Compile Include="StatePattern\States\RedState.cs" />
-    <Compile Include="StatePattern\TrafficLight_StatePattern.cs" />
-    <Compile Include="StatePattern\States\YellowState.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
