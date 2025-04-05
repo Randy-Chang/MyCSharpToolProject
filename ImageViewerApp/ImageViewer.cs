@@ -11,7 +11,7 @@ namespace ImageViewerApp
 
         private List<Button> _buttons = new List<Button>();
 
-        public ImageViewer(int controlWidth = 0, int controlHeight = 0) : base(controlWidth, controlHeight)
+        public ImageViewer() : base()
         {
             this.Dock = DockStyle.Fill;
             // 預設載入內建插件

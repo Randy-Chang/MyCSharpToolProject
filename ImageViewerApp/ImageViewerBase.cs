@@ -17,13 +17,10 @@ namespace ImageViewerApp
         private Point _lastMousePos;
         private bool _isDragging = false;
 
-        public ImageViewerBase(int controlWidth, int controlHeight)
+        public ImageViewerBase()
         {
             DoubleBuffered = true;
             SetStyle(ControlStyles.ResizeRedraw, true);
-
-            Width = controlWidth;
-            Height = controlHeight;
         }
 
         public void LoadImage(string filePath)

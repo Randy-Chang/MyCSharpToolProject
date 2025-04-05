@@ -84,13 +84,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="License-LGPL.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MyCSharpToolProject\MyCSharpToolProject.csproj">
       <Project>{b379c8a5-3757-448f-a09c-c561671ac2dc}</Project>
       <Name>MyCSharpToolProject</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="License-LGPL.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,7 +10,7 @@ namespace Project_ImageViewer
         {
             InitializeComponent();
 
-            ImageViewer viewer = new ImageViewer(plImageViewer.Width, plImageViewer.Height);
+            ImageViewer viewer = new ImageViewer();
 
             plImageViewer.Controls.Add(viewer);
 
