@@ -14,9 +14,11 @@ namespace ImageViewerApp
         public ImageViewer() : base()
         {
             this.Dock = DockStyle.Fill;
+
             // 預設載入內建插件
             _plugins.Add(new CrosshairPlugin());
             _plugins.Add(new GridPlugin());
+            _plugins.Add(new RoiPlugin());
 
             // 初始化按鍵
             InitializeButtons();
@@ -72,6 +74,36 @@ namespace ImageViewerApp
                 ImageAlign = ContentAlignment.MiddleCenter  // 讓圖片居中顯示
 
             };
+
+            Button crosshairButton = new Button
+            {
+                Text = "十",
+                Size = new Size(30, 30),
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.Transparent,
+                ForeColor = Color.White,
+                Font = new Font("Arial", 10, FontStyle.Bold)
+            };
+
+            Button gridButton = new Button
+            {
+                Text = "井",
+                Size = new Size(30, 30),
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.Transparent,
+                ForeColor = Color.White,
+                Font = new Font("Arial", 10, FontStyle.Bold)
+            };
+
+            Button roiButton = new Button
+            {
+                Text = "ROI",
+                Size = new Size(30, 30),
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.Transparent,
+                ForeColor = Color.White,
+                Font = new Font("Arial", 10, FontStyle.Bold)
+            };
             #endregion
 
             fitButton.Click += (s, e) => 
@@ -83,12 +115,18 @@ namespace ImageViewerApp
             zoomInButton.Click += (s, e) => { _zoomLevel *= 1.1f; Invalidate(); };
             zoomOutButton.Click += (s, e) => { _zoomLevel /= 1.1f; Invalidate(); };
             draggingButton.Click += (s, e) => { EnableDragging = !EnableDragging; };
+            crosshairButton.Click += (s, e) => TogglePlugin("Crosshair");
+            gridButton.Click += (s, e) => TogglePlugin("Grid");
+            roiButton.Click += (s, e) => TogglePlugin("ROI");
 
             _buttons.Add(fitButton);
             _buttons.Add(draggingButton);
             _buttons.Add(zoomInButton);
             _buttons.Add(zoomOutButton);
-            
+            _buttons.Add(crosshairButton);
+            _buttons.Add(gridButton);
+            _buttons.Add(roiButton);
+
 
             int yIntervel = 5;
             int yStartPos = 5; 
@@ -150,10 +188,35 @@ namespace ImageViewerApp
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e); // 先執行基礎類別的繪製邏輯
+
             foreach (var plugin in _plugins.Where(p => p.IsEnabled))
             {
-                plugin.Draw(e.Graphics, ClientRectangle);
+                plugin.Draw(e.Graphics, _image, _position, _zoomLevel);
             }
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            foreach (var plugin in _plugins.Where(p => p.IsEnabled))
+                plugin.OnMouseDown(e, _position, _zoomLevel);
+
+            base.OnMouseDown(e);
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            foreach (var plugin in _plugins.Where(p => p.IsEnabled))
+                plugin.OnMouseMove(e, _position, _zoomLevel);
+
+            base.OnMouseMove(e);
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            foreach (var plugin in _plugins.Where(p => p.IsEnabled))
+                plugin.OnMouseUp(e, _position, _zoomLevel);
+
+            base.OnMouseUp(e);
         }
     }
 }

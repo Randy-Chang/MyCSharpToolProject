@@ -14,7 +14,7 @@ namespace ImageViewerApp
         protected PointF _positionForFit = new PointF(0, 0);
         protected PointF _position = new PointF(0, 0);
 
-        private Point _lastMousePos;
+        protected Point _lastMousePos;
         private bool _isDragging = false;
 
         public ImageViewerBase()
@@ -105,13 +105,32 @@ namespace ImageViewerApp
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (_isDragging)
+            if (_isDragging && _image != null)
             {
-                _position.X += e.X - _lastMousePos.X;
-                _position.Y += e.Y - _lastMousePos.Y;
+                float deltaX = e.X - _lastMousePos.X;
+                float deltaY = e.Y - _lastMousePos.Y;
+
+                _position.X += deltaX;
+                _position.Y += deltaY;
+
+                // 計算圖片顯示尺寸
+                float displayWidth = _image.Width * _zoomLevel;
+                float displayHeight = _image.Height * _zoomLevel;
+
+                // 限制圖片位置不要超出控制項邊界
+                float minX = Math.Min(0, Width - displayWidth);
+                float minY = Math.Min(0, Height - displayHeight);
+                float maxX = Math.Max(0, Width - displayWidth);  // 如果圖片比容器小，允許置中
+                float maxY = Math.Max(0, Height - displayHeight);
+
+                _position.X = Math.Min(maxX, Math.Max(minX, _position.X));
+                _position.Y = Math.Min(maxY, Math.Max(minY, _position.Y));
+
                 _lastMousePos = e.Location;
                 Invalidate();
             }
+
+            Invalidate();
             base.OnMouseMove(e);
         }
 
@@ -124,6 +143,7 @@ namespace ImageViewerApp
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.Clear(BackColor);
+
             if (_image != null)
             {
                 e.Graphics.DrawImage(_image,
