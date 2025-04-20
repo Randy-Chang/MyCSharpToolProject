@@ -3,108 +3,12 @@ using System.Drawing;
 using System.Windows.Forms;
 
 
-namespace ImageViewerApp
+namespace ImageViewerApp.OverlayPlugins
 {
-    /// <summary>
-    /// 插件介面
-    /// </summary>
-    public interface IOverlayPlugin
-    {
-        string Name { get; }
-        bool IsEnabled { get; set; }
-
-        void Draw(Graphics g, System.Drawing.Image image, PointF imagePosition, float zoomLevel);
-        void HandleInput(KeyEventArgs e);
-
-        void OnMouseDown(MouseEventArgs e, PointF imagePosition, float zoomLevel);
-        void OnMouseMove(MouseEventArgs e, PointF imagePosition, float zoomLevel);
-        void OnMouseUp(MouseEventArgs e, PointF imagePosition, float zoomLevel);
-    }
-
-    /// <summary>
-    /// 繪製十字線
-    /// </summary>
-    public class CrosshairPlugin : IOverlayPlugin
-    {
-        public string Name => "Crosshair";
-        public bool IsEnabled { get; set; } = false;
-
-        public void Draw(Graphics g, System.Drawing.Image image, PointF imagePosition, float zoomLevel)
-        {
-            if (!IsEnabled || image == null) return;
-
-            using (var pen = new Pen(Color.Blue, 1))
-            {
-                float centerX = imagePosition.X + image.Width * zoomLevel / 2f;
-                float centerY = imagePosition.Y + image.Height * zoomLevel / 2f;
-
-                g.DrawLine(pen, centerX, imagePosition.Y, centerX, imagePosition.Y + image.Height * zoomLevel);
-                g.DrawLine(pen, imagePosition.X, centerY, imagePosition.X + image.Width * zoomLevel, centerY);
-            }
-        }
-
-        public void HandleInput(KeyEventArgs e) { } // 空實現，按鈕控制
-
-        public void OnMouseDown(MouseEventArgs e, PointF imagePosition, float zoomLevel)
-        {
-        }
-
-        public void OnMouseMove(MouseEventArgs e, PointF imagePosition, float zoomLevel)
-        {
-
-        }
-
-        public void OnMouseUp(MouseEventArgs e, PointF imagePosition, float zoomLevel)
-        {
-        }
-    }
-
-    /// <summary>
-    /// 繪製九宮格
-    /// </summary>
-    public class GridPlugin : IOverlayPlugin
-    {
-        public string Name => "Grid";
-        public bool IsEnabled { get; set; } = false;
-
-        public void Draw(Graphics g, System.Drawing.Image image, PointF imagePosition, float zoomLevel)
-        {
-            if (!IsEnabled || image == null) return;
-
-            using (var pen = new Pen(Color.Blue, 1))
-            {
-                float cellWidth = image.Width * zoomLevel / 3f;
-                float cellHeight = image.Height * zoomLevel / 3f;
-
-                for (int i = 1; i < 3; i++)
-                {
-                    float x = imagePosition.X + i * cellWidth;
-                    float y = imagePosition.Y + i * cellHeight;
-
-                    g.DrawLine(pen, x, imagePosition.Y, x, imagePosition.Y + image.Height * zoomLevel);
-                    g.DrawLine(pen, imagePosition.X, y, imagePosition.X + image.Width * zoomLevel, y);
-                }
-            }
-        }
-        public void HandleInput(KeyEventArgs e) { } // 空實現，按鈕控制
-
-        public void OnMouseDown(MouseEventArgs e, PointF imagePosition, float zoomLevel)
-        {
-        }
-
-        public void OnMouseMove(MouseEventArgs e, PointF imagePosition, float zoomLevel)
-        {
-        }
-
-        public void OnMouseUp(MouseEventArgs e, PointF imagePosition, float zoomLevel)
-        {
-        }
-    }
-
     /// <summary>
     /// 繪製ROI
     /// </summary>
-    public class RoiPlugin : IOverlayPlugin
+    public partial class RoiPlugin : IOverlayPlugin
     {
         public string Name => "ROI";
         public bool IsEnabled { get; set; } = false;
@@ -330,5 +234,22 @@ namespace ImageViewerApp
         }
     }
 
+    public partial class RoiPlugin : IRoiProvider
+    {
+        /// <summary>  
+        /// 取得浮點型別的 ROI (Region of Interest)。  
+        /// </summary>  
+        public RectangleF GetROI
+        {
+            get { return _roi; }
+        }
 
+        /// <summary>  
+        /// 取得整數型別的 ROI (Region of Interest)，使用四捨五入處理。  
+        /// </summary>  
+        public Rectangle GetROIInt
+        {
+            get { return Rectangle.Round(_roi); }
+        }
+    }
 }

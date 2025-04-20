@@ -42,6 +42,22 @@ namespace ImageViewerApp
             }
         }
 
+        public void LoadImage(Bitmap bitmap)
+        {
+            try
+            {
+                _image?.Dispose();
+                _image = (Image)bitmap.Clone();
+
+                UpdateZoomToFit();
+                Invalidate();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"載入圖片失敗：{ex.Message}", "錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         protected void UpdateZoomToFit()
         {
             if (_image == null || Width == 0 || Height == 0) return;
@@ -107,6 +123,8 @@ namespace ImageViewerApp
         {
             if (_isDragging && _image != null)
             {
+                Cursor = Cursors.Hand; // 拖動時顯示手形游標
+
                 float deltaX = e.X - _lastMousePos.X;
                 float deltaY = e.Y - _lastMousePos.Y;
 
@@ -128,6 +146,10 @@ namespace ImageViewerApp
 
                 _lastMousePos = e.Location;
                 Invalidate();
+            }
+            else
+            {
+                Cursor = Cursors.Default; // 沒有拖動時恢復預設游標
             }
 
             Invalidate();

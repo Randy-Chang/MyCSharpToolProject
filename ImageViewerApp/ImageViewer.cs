@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ImageViewerApp.OverlayPlugins;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -19,6 +21,7 @@ namespace ImageViewerApp
             _plugins.Add(new CrosshairPlugin());
             _plugins.Add(new GridPlugin());
             _plugins.Add(new RoiPlugin());
+            _plugins.Add(new MatchResultOverlayPlugin());
 
             // 初始化按鍵
             InitializeButtons();
@@ -217,6 +220,47 @@ namespace ImageViewerApp
                 plugin.OnMouseUp(e, _position, _zoomLevel);
 
             base.OnMouseUp(e);
+        }
+    }
+
+    // ROI 
+    public partial class ImageViewer
+    {
+        public Rectangle GetRoiRectangle()
+        {
+            var roiPlugin = _plugins.OfType<IRoiProvider>().FirstOrDefault();
+            return roiPlugin?.GetROIInt ?? Rectangle.Empty;
+        }
+
+        public Bitmap GetRoiImage()
+        {
+            var roiPlugin = _plugins.OfType<IRoiProvider>().FirstOrDefault();
+            if (roiPlugin != null && _image != null)
+            {
+                Rectangle roi = roiPlugin.GetROIInt;
+                if (_image.PixelFormat != PixelFormat.Undefined && roi.Width > 0 && roi.Height > 0)
+                {
+                    // 使用 Graphics.FromImage 和 DrawImage 來複製 ROI 區域影像  
+                    Bitmap roiImage = new Bitmap(roi.Width, roi.Height);
+                    using (Graphics g = Graphics.FromImage(roiImage))
+                    {
+                        g.DrawImage(_image, new Rectangle(0, 0, roi.Width, roi.Height), roi, GraphicsUnit.Pixel);
+                    }
+                    return roiImage;
+                }
+            }
+            return null;
+        }
+    }
+
+
+    public partial class ImageViewer 
+    {
+        public void AddMatchResult(List<RectangleF> rectangleFs)
+        {
+            var matchPlugin = _plugins.OfType<MatchResultOverlayPlugin>().FirstOrDefault();
+            matchPlugin.ResultRectangles.Clear();
+            matchPlugin.ResultRectangles = new List<RectangleF>(rectangleFs);
         }
     }
 }
